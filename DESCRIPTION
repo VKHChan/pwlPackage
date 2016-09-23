@@ -1,0 +1,14 @@
+Package: pwlPackage
+Type: Package
+Title: Find the piecewise linear equations
+Version: 0.1
+Date: 2016-09-23
+Author: Veronica Chan
+Maintainer: Veronica Chan <veronicakaheichan@gmail.com>
+Description: Find the piecewise linear equations when given a dataset and the
+    desired number of breakpoints. User can specified the desired number of BP
+    or maximum desired nubmer of BP, as well as the minimum distance between the
+    breakpoints.
+License: VChan
+LazyData: TRUE
+RoxygenNote: 5.0.1
