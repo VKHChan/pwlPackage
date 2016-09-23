@@ -4,7 +4,7 @@
 #' @return The plot of the data with the provided pwl
 #' @export
 
-plot.pwl <- function(pwl, data){
+plots.pwl <- function(pwl, data){
   if(class(pwl)!="pwl") stop("Need to provide the piecewise linear equations")
 
   x <- data[,1]
