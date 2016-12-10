@@ -7,11 +7,11 @@
 plots.pwl <- function(pwl, data){
   if(class(pwl)!="pwl") stop("Need to provide the piecewise linear equations")
 
-  x <- data[,1]
-  y <- data[,2]
+  x <- data[,1, drop=FALSE]
+  y <- data[,2, drop=FALSE]
 
   #plot the data
-  plot(x,y, ylim=c(min(y), max(y)), xlim=c(min(x), max(x)))
+  plot(data, ylim=c(min(y), max(y)), xlim=c(min(x), max(x)), xlab=names(x), ylab = names(y))
 
   BP <- pwl$BreakPoints
   noOfBP <- length(pwl$BreakPoints)
