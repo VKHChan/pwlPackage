@@ -17,8 +17,13 @@ getequations <- function(data, BPs){
     y1 <- data[data[,1] <= BPs[1], 2, drop = FALSE]
     y2 <- data[data[,1] >= BPs[1], 2, drop = FALSE]
 
-    line1 <- lm(y1~x1)
-    line2 <- lm(y2~x2)
+    x1name <- names(x1)
+    y1name <- names(y1)
+
+    lineformula <- formula(paste(y1name,"~",x1name))
+
+    line1 <- lm(lineformula, data = data[data[,1] <= BPs[1], , drop = FALSE])
+    line2 <- lm(lineformula, data =  data[data[,1] >= BPs[1], , drop = FALSE])
 
     piecewise$coeffs <- cbind(line1$coefficients, line2$coefficients)
     piecewise$fitted <- rbind(line1$fitted.values, line2$fitted.values)
@@ -30,18 +35,27 @@ getequations <- function(data, BPs){
     repeat{
       if(i == 0){
         # the first segment
+        data1 <- data[data[,1] <= BPs[i+1],, drop = FALSE]
         x1 <- data[data[,1] <= BPs[i+1], 1, drop = FALSE]
         y1 <- data[data[,1] <= BPs[i+1], 2, drop = FALSE]
       }else if(i == noOfBP){
         # finding the last segment
+        data1 <- data[data[,1] >= BPs[i], , drop = FALSE]
         x1 <- data[data[,1] >= BPs[i], 1, drop = FALSE]
         y1 <- data[data[,1] >= BPs[i], 2, drop = FALSE]
       }else{
+        data1 <- data[data[,1] >= BPs[i] & data[,1] <= BPs[i+1], , drop = FALSE]
         # finding all the other segments in between
         x1 <- data[data[,1] >= BPs[i] & data[,1] <= BPs[i+1], 1, drop = FALSE]
         y1 <- data[data[,1] >= BPs[i] & data[,1] <= BPs[i+1], 2, drop = FALSE]
       }
-      line1 <- lm(y1~x1)
+
+      x1name <- names(x1)
+      y1name <- names(y1)
+
+      lineformula <- formula(paste(y1name,"~",x1name))
+      line1 <- lm(lineformula, data = data1)
+      #line1 <- lm(y1~x1)
 
       if(i == 0){
         piecewise$coeffs <- as.matrix(line1$coefficients)
